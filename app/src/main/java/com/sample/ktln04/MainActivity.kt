@@ -10,6 +10,7 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import com.sample.ktln04.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
     private lateinit var stopwatch: Chronometer
@@ -20,17 +21,21 @@ class MainActivity : AppCompatActivity() {
     private val RUNNING_KEY = "running"
     private val BASE_KEY = "base"
 
+    private lateinit var binding: ActivityMainBinding
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
-        setContentView(R.layout.activity_main)
+        //setContentView(R.layout.activity_main)
+        binding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(binding.root)
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
 
-        stopwatch = findViewById<Chronometer>(R.id.stopwatch)
+        stopwatch = binding.stopwatch
         if(savedInstanceState != null){
             offset = savedInstanceState.getLong(OFFSET_KEY)
             running = savedInstanceState.getBoolean(RUNNING_KEY)
@@ -42,10 +47,10 @@ class MainActivity : AppCompatActivity() {
             else setBaseTime()
         }
 
-        val btnStart = findViewById<Button>(R.id.btnStart)
-        val btnPause = findViewById<Button>(R.id.btnPause)
-        val btnReset = findViewById<Button>(R.id.btnReset)
-        val tvOffset = findViewById<TextView>(R.id.tvOffset)
+        val btnStart = binding.btnStart
+        val btnPause = binding.btnPause
+        val btnReset = binding.btnReset
+        val tvOffset = binding.tvOffset
 
         btnStart.setOnClickListener {
             if(!running) {
